@@ -1,4 +1,5 @@
 CREATE DATABASE Projeto;
+
 USE Projeto;
 
 

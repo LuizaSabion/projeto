@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>V1 - Cadastro de Produtos</title>
+    <title>Cadastro de Produtos</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
@@ -29,7 +29,6 @@
                 <?php
                 include 'conexao.php';
                 // Query SQL para selecionar todos os produtos
-                // MODIFICADO: Seleciona 'id_produto'
                 $sql = "SELECT id_produto, nome_produto, estoque_inicial, custo_produto, valor_venda_produto, fornecedor_produto,
                     cod_barras FROM produtos";
                 $resultado = mysqli_query($conexao, $sql);

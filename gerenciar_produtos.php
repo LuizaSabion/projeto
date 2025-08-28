@@ -31,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $stmt = mysqli_prepare($conexao, $sql);
         
-        // --- CORREÇÃO APLICADA AQUI ---
-        // A ordem das variáveis e os tipos foram corrigidos para corresponder à query SQL.
+       
         // s = string, i = integer, d = double
         mysqli_stmt_bind_param($stmt, "siddds", $nome, $estoque, $custo, $valor_venda, $fornecedor, $cod_barras);
         

@@ -4,9 +4,9 @@ include 'conexao.php';
 
 $acao = $_GET['acao'] ?? '';
 
-if ($acao === 'buscar') {//filtro que usa o nome produto e o cod de barras para a busca no sistema
+if ($acao === 'buscar') { //filtro que usa o nome produto e o cod de barras para a busca no sistema
     $query = $_GET['q'] ?? '';
-    // MODIFICADO: Seleciona 'id_produto' em vez de 'id'
+    
     $stmt = mysqli_prepare($conexao, "SELECT id_produto, nome_produto, estoque_inicial, valor_venda_produto 
     FROM produtos WHERE nome_produto LIKE ? OR cod_barras LIKE ? LIMIT 10");
     $searchTerm = "%{$query}%";
@@ -84,7 +84,7 @@ if ($acao === 'buscar') {//filtro que usa o nome produto e o cod de barras para 
         $itens_resultado = mysqli_stmt_get_result($stmt_itens);
         $itens_para_repor = mysqli_fetch_all($itens_resultado, MYSQLI_ASSOC);
 
-        // MODIFICADO: Condição WHERE usa 'id_produto'
+
         $stmt_repor_estoque = mysqli_prepare($conexao, "UPDATE produtos SET estoque_inicial = estoque_inicial + ? WHERE id_produto = ?");
         foreach ($itens_para_repor as $item) {
             mysqli_stmt_bind_param($stmt_repor_estoque, "ii", $item['quantidade'], $item['id_produto']);
