@@ -5,7 +5,6 @@
     <title>Dashboard - Sistema de Gestão</title>
     <link rel="stylesheet" href="estilo.css">
     <style>
-        /* Estilos específicos para o dashboard */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -34,7 +33,7 @@
             color: #0056b3;
         }
         .menu-item .icon {
-            font-size: 3em; /* Tamanho do emoji/ícone */
+            font-size: 3em; /* Tamanho do ícone do menu */
             margin-bottom: 15px;
         }
     </style>
@@ -44,21 +43,21 @@
         <h1>Sistema de Gerenciamento de Estoque</h1>
 
         <div class="menu-grid">
-            <!-- Funcionalidades Existentes -->
+            <!-- Funcionalidades já criadas -->
             <a href="pdv.php" class="menu-item">
                 <span class="icon">🛒</span>
-                <span>Ponto de Venda (PDV)</span>
+                <span>Ponto de Venda (PDV)</span> <!-- area de venda, 'carrinho'-->
             </a>
             <a href="estoque.php" class="menu-item">
                 <span class="icon">📦</span>
-                <span>Gerenciar Produtos</span>
+                <span>Gerenciar Produtos</span> <!-- Cadastrar, editar e excluir os produtos-->
             </a>
             <a href="historico_vendas.php" class="menu-item">
                 <span class="icon">📈</span>
-                <span>Histórico de Vendas</span>
+                <span>Histórico de Vendas</span><!--vendas cadastradas e botão para excluir vendas -->
             </a>
 
-            <!-- Funcionalidades Planejadas -->
+            <!-- Funcionalidades furuas para o sistema -->
             <a href="#" class="menu-item">
                 <span class="icon">👥</span>
                 <span>Cadastrar Funcionários</span>

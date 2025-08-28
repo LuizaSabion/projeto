@@ -5,7 +5,7 @@ $acao = $_GET['acao'] ?? 'adicionar';
 $id = $_GET['id'] ?? 0;
 
 $produto = [
-    'id' => '', 'nome_produto' => '', 'estoque_inicial' => '',
+    'id_produto' => '', 'nome_produto' => '', 'estoque_inicial' => '',
     'custo_produto' => '', 'valor_venda_produto' => '', 'fornecedor_produto' => '',
     'cod_barras' => ''
 ];
@@ -30,8 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (?, ?, ?, ?, ?, ?)";
         
         $stmt = mysqli_prepare($conexao, $sql);
-        // Tipos de dados: s=string, d=double, i=integer. Total 6 parâmetros.
-        mysqli_stmt_bind_param($stmt, "ssddss", $nome, $estoque, $custo, $valor_venda, $fornecedor, $cod_barras);
+        
+        // --- CORREÇÃO APLICADA AQUI ---
+        // A ordem das variáveis e os tipos foram corrigidos para corresponder à query SQL.
+        // s = string, i = integer, d = double
+        mysqli_stmt_bind_param($stmt, "siddds", $nome, $estoque, $custo, $valor_venda, $fornecedor, $cod_barras);
         
         if (!mysqli_stmt_execute($stmt)) {
             echo "Erro ao cadastrar produto: " . mysqli_error($conexao);
@@ -39,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // --- LÓGICA DE EDIÇÃO (UPDATE) ---
     } elseif ($acao_post === 'db_editar') {
-        $id_post = $_POST['id'];
+        $id_post = $_POST['id_produto'];
         $nome = $_POST['nome_produto'];
         $estoque = $_POST['estoque_inicial'];
         $custo = str_replace(',', '.', $_POST['custo_produto']);
@@ -47,11 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fornecedor = $_POST['fornecedor_produto'];
         $cod_barras = $_POST['cod_barras'];
         
-        $sql = "UPDATE produtos SET nome_produto = ?, estoque_inicial = ?, custo_produto = ?, valor_venda_produto = ?, fornecedor_produto = ?, cod_barras = ? WHERE id = ?";
+        $sql = "UPDATE produtos SET nome_produto = ?, estoque_inicial = ?, custo_produto = ?, valor_venda_produto = ?, fornecedor_produto = ?, cod_barras = ? WHERE id_produto = ?";
         
         $stmt = mysqli_prepare($conexao, $sql);
-        // Tipos de dados: 6 strings/doubles e 1 integer no final para o ID.
-        mysqli_stmt_bind_param($stmt, "ssddssi", $nome, $estoque, $custo, $valor_venda, $fornecedor, $cod_barras, $id_post);
+        mysqli_stmt_bind_param($stmt, "sidddsi", $nome, $estoque, $custo, $valor_venda, $fornecedor, $cod_barras, $id_post);
 
         if (!mysqli_stmt_execute($stmt)) {
             echo "Erro ao atualizar produto: " . mysqli_error($conexao);
@@ -67,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo_pagina = "Editar Produto";
     $acao_form = "db_editar";
     
-    $sql = "SELECT * FROM produtos WHERE id = ?";
+    $sql = "SELECT * FROM produtos WHERE id_produto = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
@@ -79,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 } elseif ($acao === 'excluir' && $id > 0) {
     // --- LÓGICA DE EXCLUSÃO (DELETE) ---
-    $sql = "DELETE FROM produtos WHERE id = ?";
+    $sql = "DELETE FROM produtos WHERE id_produto = ?";
     $stmt = mysqli_prepare($conexao, $sql);
     mysqli_stmt_bind_param($stmt, "i", $id);
 
@@ -102,10 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h1><?php echo $titulo_pagina; ?></h1>
-        <!-- Formulário sem o enctype -->
         <form action="gerenciar_produtos.php" method="post">
             <input type="hidden" name="acao_form" value="<?php echo $acao_form; ?>">
-            <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
+            <input type="hidden" name="id_produto" value="<?php echo $produto['id_produto']; ?>">
             
             <label for="nome_produto">Nome do Produto:*</label>
             <input type="text" id="nome_produto" name="nome_produto" value="<?php echo htmlspecialchars($produto['nome_produto']); ?>" required>

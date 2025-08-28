@@ -13,7 +13,7 @@
         <a href="index.php" class="btn" style="background-color: #007BFF;">Ir para o Inicio</a>
         <a href="historico_vendas.php" class="btn" style="background-color: #17a2b8;">Histórico de Vendas</a>
         
-       
+        
             <div class="pdv-left">
                 <h3>Buscar Produto</h3>
                 <input type="text" id="busca-produto" placeholder="Digite o nome ou código do produto..." autocomplete="off">
@@ -83,7 +83,8 @@
         });
 
         function adicionarAoCarrinho(produto) {
-            const itemExistente = carrinho.find(item => item.id === produto.id);
+            // MODIFICADO: Procura por 'id_produto'
+            const itemExistente = carrinho.find(item => item.id_produto === produto.id_produto);
             if (itemExistente) {
                 if (itemExistente.quantidade < produto.estoque_inicial) {
                     itemExistente.quantidade++;
@@ -103,7 +104,8 @@
         }
         
         function removerDoCarrinho(produtoId) {
-            const itemIndex = carrinho.findIndex(item => item.id === produtoId);
+            // MODIFICADO: Procura por 'id_produto'
+            const itemIndex = carrinho.findIndex(item => item.id_produto === produtoId);
             if (itemIndex > -1) {
                 if (carrinho[itemIndex].quantidade > 1) {
                     carrinho[itemIndex].quantidade--;
@@ -123,7 +125,8 @@
                 li.innerHTML = `
                     <span>${item.nome_produto} (Qtd: ${item.quantidade})</span>
                     <span>R$ ${valorItem.toFixed(2).replace('.', ',')}</span>
-                    <button onclick="removerDoCarrinho(${item.id})">Remover</button>
+                    <!-- MODIFICADO: Passa 'id_produto' para a função -->
+                    <button onclick="removerDoCarrinho(${item.id_produto})">Remover</button>
                 `;
                 listaVenda.appendChild(li);
                 subtotal += valorItem;

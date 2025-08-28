@@ -29,8 +29,9 @@
                 <?php
                 include 'conexao.php';
                 // Query SQL para selecionar todos os produtos
-                $sql = "SELECT id, nome_produto, estoque_inicial, custo_produto, valor_venda_produto, fornecedor_produto,
-                 cod_barras FROM produtos";
+                // MODIFICADO: Seleciona 'id_produto'
+                $sql = "SELECT id_produto, nome_produto, estoque_inicial, custo_produto, valor_venda_produto, fornecedor_produto,
+                    cod_barras FROM produtos";
                 $resultado = mysqli_query($conexao, $sql);
 
                 // Verifica se a consulta retornou resultados
@@ -38,7 +39,8 @@
                     // Loop para exibir cada produto
                     while ($linha = mysqli_fetch_assoc($resultado)) {
                         echo "<tr>";
-                        echo "<td>" . $linha['id'] . "</td>";
+                        // MODIFICADO: Exibe 'id_produto'
+                        echo "<td>" . $linha['id_produto'] . "</td>";
                         echo "<td>" . htmlspecialchars($linha['nome_produto']) . "</td>";
                         echo "<td>" . $linha['estoque_inicial'] . "</td>";
                         echo "<td>" . number_format($linha['custo_produto'], 2, ',', '.') . "</td>";
@@ -46,8 +48,9 @@
                         echo "<td>" . htmlspecialchars($linha['fornecedor_produto']) . "</td>";
                         echo "<td>" . htmlspecialchars($linha['cod_barras']) . "</td>";
                         echo "<td>";
-                        echo "<a href='gerenciar_produtos.php?acao=editar&id=" . $linha['id'] . "' class='btn-editar'>Editar</a> ";
-                        echo "<a href='gerenciar_produtos.php?acao=excluir&id=" . $linha['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir este produto?\")' class='btn-excluir'>Excluir</a>";
+                        // MODIFICADO: Passa 'id_produto' nos links
+                        echo "<a href='gerenciar_produtos.php?acao=editar&id=" . $linha['id_produto'] . "' class='btn-editar'>Editar</a> ";
+                        echo "<a href='gerenciar_produtos.php?acao=excluir&id=" . $linha['id_produto'] . "' onclick='return confirm(\"Tem certeza que deseja excluir este produto?\")' class='btn-excluir'>Excluir</a>";
                         echo "</td>";
                         echo "</tr>";
                     }
