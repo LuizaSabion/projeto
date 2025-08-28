@@ -2,64 +2,80 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>V1 - Cadastro de Produtos</title>
+    <title>Dashboard - Sistema de Gestão</title>
     <link rel="stylesheet" href="estilo.css">
+    <style>
+        /* Estilos específicos para o dashboard */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: #0056b3;
+        }
+        .menu-item .icon {
+            font-size: 3em; /* Tamanho do emoji/ícone */
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Sistema de Gerenciamento de Estoque</h1>
-        <h2>Produtos Cadastrados</h2>
-        <a href="historico_vendas.php" class="btn" style="background-color: #17a2b8;">Histórico de Vendas</a>
-        <a href="pdv.php" class="btn" style="background-color: #007BFF;">Ir para o PDV</a>
-        <a href="gerenciar_produtos.php?acao=adicionar" class="btn">Adicionar Novo Produto</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome do Produto</th>
-                    <th>Estoque</th>
-                    <th>Custo (R$)</th>
-                    <th>Valor de Venda (R$)</th>
-                    <th>Fornecedor</th>
-                    <th>Cód. Barras</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                include 'conexao.php';
-                // Query SQL para selecionar todos os produtos
-                $sql = "SELECT id, nome_produto, estoque_inicial, custo_produto, valor_venda_produto, fornecedor_produto,
-                 cod_barras FROM produtos";
-                $resultado = mysqli_query($conexao, $sql);
 
-                // Verifica se a consulta retornou resultados
-                if ($resultado && mysqli_num_rows($resultado) > 0) {
-                    // Loop para exibir cada produto
-                    while ($linha = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $linha['id'] . "</td>";
-                        echo "<td>" . htmlspecialchars($linha['nome_produto']) . "</td>";
-                        echo "<td>" . $linha['estoque_inicial'] . "</td>";
-                        echo "<td>" . number_format($linha['custo_produto'], 2, ',', '.') . "</td>";
-                        echo "<td>" . number_format($linha['valor_venda_produto'], 2, ',', '.') . "</td>";
-                        echo "<td>" . htmlspecialchars($linha['fornecedor_produto']) . "</td>";
-                        echo "<td>" . htmlspecialchars($linha['cod_barras']) . "</td>";
-                        echo "<td>";
-                        echo "<a href='gerenciar_produtos.php?acao=editar&id=" . $linha['id'] . "' class='btn-editar'>Editar</a> ";
-                        echo "<a href='gerenciar_produtos.php?acao=excluir&id=" . $linha['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir este produto?\")' class='btn-excluir'>Excluir</a>";
-                        echo "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    // Mensagem exibida se não houver produtos
-                    echo "<tr><td colspan='8'>Nenhum produto cadastrado.</td></tr>";
-                }
-                // Fecha a conexão com o banco de dados
-                mysqli_close($conexao);
-                ?>
-            </tbody>
-        </table>
+        <div class="menu-grid">
+            <!-- Funcionalidades Existentes -->
+            <a href="pdv.php" class="menu-item">
+                <span class="icon">🛒</span>
+                <span>Ponto de Venda (PDV)</span>
+            </a>
+            <a href="estoque.php" class="menu-item">
+                <span class="icon">📦</span>
+                <span>Gerenciar Produtos</span>
+            </a>
+            <a href="historico_vendas.php" class="menu-item">
+                <span class="icon">📈</span>
+                <span>Histórico de Vendas</span>
+            </a>
+
+            <!-- Funcionalidades Planejadas -->
+            <a href="#" class="menu-item">
+                <span class="icon">👥</span>
+                <span>Cadastrar Funcionários</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">👤</span>
+                <span>Cadastrar Clientes</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🚚</span>
+                <span>Cadastrar Fornecedores</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📄</span>
+                <span>Relatórios</span>
+            </a>
+        </div>
     </div>
 </body>
 </html>

@@ -53,14 +53,14 @@
     </div>
 
     <script>
-    function excluirVenda(idVenda) {
+    function excluirVenda(id) {
         if (confirm('Tem a certeza de que deseja excluir esta venda? Esta ação não pode ser desfeita e o stock dos produtos será reposto.')) {
-            fetch(`api_vendas.php?acao=excluir_venda&id=${idVenda}`)
+            fetch(`api_vendas.php?acao=excluir_venda&id=${id}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     alert('Venda excluída com sucesso!');
-                    document.getElementById('venda-' + idVenda).remove();
+                    document.getElementById('venda-' + id).remove();
                 } else {
                     alert('Erro ao excluir a venda: ' + data.message);
                 }

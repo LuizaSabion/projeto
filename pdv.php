@@ -4,26 +4,16 @@
     <meta charset="UTF-8">
     <title>PDV - Ponto de Venda</title>
     <link rel="stylesheet" href="estilo.css">
-    <style>
-        .pdv-container { display: flex; gap: 20px; }
-        .pdv-left, .pdv-right { flex-basis: 50%; }
-        #lista-produtos-venda { list-style: none; padding: 0; }
-        #lista-produtos-venda li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .pdv-totais { text-align: right; margin-top: 15px; }
-        .pdv-totais div { font-size: 1.1em; margin-bottom: 5px; }
-        #total-venda { font-size: 2em; font-weight: bold; color: #28a745; }
-        .produto-busca-resultado { cursor: pointer; padding: 8px; border-bottom: 1px solid #ddd; }
-        .produto-busca-resultado:hover { background-color: #f0f0f0; }
-        #busca-resultados { border: 1px solid #ccc; border-radius: 5px; max-height: 200px; overflow-y: auto; }
-        .btn-finalizar { background-color: #007BFF; width: 100%; padding: 15px; font-size: 1.2em; margin-top: 15px; }
-        .ajuste-venda { display: flex; gap: 10px; margin-top: 10px; }
-        .ajuste-venda label { flex-basis: 50%; }
-    </style>
+    
 </head>
 <body>
     <div class="container">
         <h1>PDV - Ponto de Venda</h1>
-        <div class="pdv-container">
+        
+        <a href="index.php" class="btn" style="background-color: #007BFF;">Ir para o Inicio</a>
+        <a href="historico_vendas.php" class="btn" style="background-color: #17a2b8;">Histórico de Vendas</a>
+        
+       
             <div class="pdv-left">
                 <h3>Buscar Produto</h3>
                 <input type="text" id="busca-produto" placeholder="Digite o nome ou código do produto..." autocomplete="off">

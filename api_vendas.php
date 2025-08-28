@@ -15,10 +15,7 @@ if ($acao === 'buscar') {
     echo json_encode($produtos);
 
 } elseif ($acao === 'registrar') {
-    // 1. Recebe o objeto completo enviado pelo JavaScript
     $dadosVenda = json_decode(file_get_contents('php://input'), true);
-    
-    // 2. Extrai as informações de dentro do objeto
     $carrinho = $dadosVenda['carrinho'];
     $desconto = $dadosVenda['desconto'] ?? 0;
     $acrescimo = $dadosVenda['acrescimo'] ?? 0;
@@ -31,20 +28,17 @@ if ($acao === 'buscar') {
     mysqli_begin_transaction($conexao);
 
     try {
-        // 3. Calcula o total com base nos produtos, desconto e acréscimo
         $subtotal = 0;
         foreach ($carrinho as $item) {
             $subtotal += $item['valor_venda_produto'] * $item['quantidade'];
         }
         $valor_total = $subtotal - $desconto + $acrescimo;
 
-        // 4. Insere na tabela 'vendas' com os novos campos
         $stmt_venda = mysqli_prepare($conexao, "INSERT INTO vendas (valor_total, desconto, acrescimo) VALUES (?, ?, ?)");
         mysqli_stmt_bind_param($stmt_venda, "ddd", $valor_total, $desconto, $acrescimo);
         mysqli_stmt_execute($stmt_venda);
         $id_venda = mysqli_insert_id($conexao);
 
-        // 5. Insere os itens da venda e atualiza o estoque (lógica inalterada)
         $stmt_item = mysqli_prepare($conexao, "INSERT INTO venda_itens (id_venda, id_produto, quantidade, preco_unitario) VALUES (?, ?, ?, ?)");
         $stmt_estoque = mysqli_prepare($conexao, "UPDATE produtos SET estoque_inicial = estoque_inicial - ? WHERE id = ?");
 
@@ -91,7 +85,9 @@ if ($acao === 'buscar') {
         mysqli_stmt_bind_param($stmt_del_itens, "i", $id_venda);
         mysqli_stmt_execute($stmt_del_itens);
 
-        $stmt_del_venda = mysqli_prepare($conexao, "DELETE FROM vendas WHERE id_venda = ?");
+        // --- CORREÇÃO APLICADA AQUI ---
+        // A coluna na tabela 'vendas' chama-se 'id', e não 'id_venda'.
+        $stmt_del_venda = mysqli_prepare($conexao, "DELETE FROM vendas WHERE id = ?");
         mysqli_stmt_bind_param($stmt_del_venda, "i", $id_venda);
         mysqli_stmt_execute($stmt_del_venda);
 
